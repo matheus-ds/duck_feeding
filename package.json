@@ -1,0 +1,27 @@
+{
+  "name": "duck_feeding",
+  "version": "1.0.0",
+  "description": "Research on Duck Feeding pattern",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "server": "nodemon server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/matheus-ds/duck_feeding.git"
+  },
+  "author": "Matt Silva",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/matheus-ds/duck_feeding/issues"
+  },
+  "homepage": "https://github.com/matheus-ds/duck_feeding#readme",
+  "dependencies": {
+    "concurrently": "^5.3.0",
+    "express": "^4.17.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.4"
+  }
+}
