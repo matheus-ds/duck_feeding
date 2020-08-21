@@ -14,18 +14,25 @@ function App() {
   const tabChange = ((event, newValue) => {
 		setTab(newValue);
   });
+
+  const goToForm = () => {
+    setTab("form");
+  }
   
   return (
     <div className="App">
       <TabContext value={tab}> 
-			<TabList onChange={tabChange} TabIndicatorProps={{style: {background:'#787878'}}}>
-				<Tab label="Home" value="home"/>
-				<Tab label="Form" value="form"/>
-				<Tab label="Stats" value="stats"/>
-			</TabList>
+      <div id="header">
+
+        <TabList onChange={tabChange} TabIndicatorProps={{style: {background:'rgb(63 81 181)'}}}>
+          <Tab label="Home" value="home"/>
+          <Tab label="Form" value="form"/>
+          <Tab label="Stats" value="stats"/>
+        </TabList>
+      </div>
 
 			<TabPanel value="home" style={{padding: "0px"}}>
-				<Home />
+				<Home goToForm={goToForm} />
 			</TabPanel>
 			<TabPanel value="form" style={{padding: "0px"}}>
 				<Form />
