@@ -1,19 +1,13 @@
 function formValidation(formData) {
-    const expected_params = {
-        food: "banana",
-        time: "9 am",
-        location: "beacon",
-        number_of_ducks: "2",
-        food_amount: "2"
-    }
-    for( const key in expected_params){
-        if (! formData.hasOwnProperty(key) || formData[key] == ""){
-            console.log(key);
-        }
-        
-    }
-    console.log(expected_params);
+    const expected_params = ["food", "time", "location", "number_of_ducks", "food_amount"];
 
+    for ( const key of expected_params) {
+        if (! formData.hasOwnProperty(key) || formData[key] == "") {
+            let key_friendly = key.split("_").join(" ");
+            return {valid: false, message: `Missing information: ${key_friendly}`};
+        }
+    }
+    return {valid: true};
 }
 
 export {formValidation};

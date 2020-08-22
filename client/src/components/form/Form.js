@@ -12,25 +12,32 @@ function Form({saveForm, data}){
     }
     const handleSubmit = (e) => {
         const validForm = formValidation(formData);
-        
-
-        fetch("/api/feed", {
-            method: "POST",
-            body: JSON.stringify(formData)
-        })
-        .then((a) => {
+        console.log(validForm);
+        if (validForm.valid) {
+            fetch("/api/feed", {
+                method: "POST",
+                body: JSON.stringify(formData)
+            })
+            .then((a) => {
+                if (message){
+                    message.current.style.display = "block";
+                    message.current.style.color = "green";
+                    message.current.innerHTML = "The form has been correctly submitted";
+                }
+            })
+            .then(() => {
+                setFormData({});
+            })
+            .catch((e) => {
+                console.log(`Failed to post: ${e}`);
+            })
+        } else {
             if (message){
                 message.current.style.display = "block";
-                message.current.style.color = "green";
-                message.current.innerHTML = "The form has been correctly submitted";
+                message.current.style.color = "red";
+                message.current.innerHTML = validForm.message;
             }
-        })
-        .then(() => {
-            setFormData({});
-        })
-        .catch((e) => {
-            console.log(`Failed to post: ${e}`);
-        })
+        }
     }
     React.useEffect( () => {
         console.log(formData)
