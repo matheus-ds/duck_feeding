@@ -5,8 +5,8 @@ const client = new Client({
     user: process.env.DB_USER,
     password: process.env.DB_PASSWORD,
     host: process.env.DB_HOST,
-    port: 5432,
-    database: "postgres"
+    port: process.env.DB_PORT,
+    database: process.env.DB_DATABASE
 })
 
 async function connect(){
@@ -18,7 +18,7 @@ async function connect(){
     }
 }
 
-async function post(payload){
+async function postDB(payload){
     try{
         const timestamp = Date.now();
         if (! client._connected){
@@ -43,14 +43,15 @@ async function post(payload){
         )
         `
         const result = await client.query(sqlQuery);
+        await client.query("COMMIT");
         if (result.rowCount ===1){
             const response = {feedid: timestamp, ... payload};
-            console.log(response)
             console.log("Succesfully inserted one row")
             return response;
         }
     } catch (e) {
-        console.log("Failed to post: ", e.detail);
+        console.log("Failed to post: ", e);
+        return {message: "Failed to insert entry in database. Please try again later."}
     } finally{
         await client.end();
     }
@@ -65,4 +66,4 @@ async function post(payload){
 // }
 // post(payload);
 
-module.export = post;
+module.exports = postDB;
