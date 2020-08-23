@@ -9,13 +9,13 @@ app.use(bodyParser.urlencoded({extended: true}))
 app.use(bodyParser.json());
 app.use(bodyParser.text());
 
-// get all duck feeding entries
+/// get all duck feeding entries
 app.get('/api/feed/all', async (req, res) => {
     const result = await getAllDB();
     res.json(result);
 })
 
-// post a new duck feeding entry
+/// post a new duck feeding entry
 app.post('/api/feed', async (req, res) => {
     console.log(req.body);
     const inputValidation = validateDuckFeeding(req)

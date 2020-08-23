@@ -8,7 +8,7 @@ const client = new Client({
     port: process.env.DB_PORT,
     database: process.env.DB_DATABASE
 })
-
+/// Connects to the DB. Assumes an instance of Client already exists
 async function connect(){
     try{
         await client.connect()
@@ -17,7 +17,8 @@ async function connect(){
         console.log(e)
     }
 }
-
+/// inserts one entry to the database. Assumes data has already been validated.
+/// Handles exceptions by logging errors and returning a standard error message
 async function postDB(payload){
     try{
         const timestamp = Date.now();
@@ -55,6 +56,8 @@ async function postDB(payload){
     }
 }
 
+/// Retrieves all entries from the database.
+/// Handles exceptions by logging errors and returning a standard error message
 async function getAllDB(){
     try{
         if (! client._connected){
