@@ -18,12 +18,15 @@ app.get('/api/feed/all', async (req, res) => {
 /// post a new duck feeding entry
 app.post('/api/feed', async (req, res) => {
     console.log(req.body);
-    const inputValidation = validateDuckFeeding(req)
+    const payload = JSON.parse(req.body);
+    console.log(payload.time);
+    const inputValidation = validateDuckFeeding(payload)
     if (inputValidation.valid === false){
+        console.log(inputValidation.message)
         res.status(400)
         res.json(inputValidation)
     } else {
-        const dbResponse = await postDB(req.body)
+        const dbResponse = await postDB(payload)
         if (dbResponse.hasOwnProperty("message")){
             res.status(500)
         } else {

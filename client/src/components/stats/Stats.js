@@ -47,7 +47,7 @@ function Stats(){
             <h1>Stats</h1>
             {(data !== undefined && (  // Renders table only after successful fetch
                 <Card elevation={3}>
-                    <TableContainer style={{maxHeight: "400px"}}>
+                    <TableContainer style={{maxHeight: "700px"}}>
                         <Table stickyHeader aria-label="sticky table">
                             <TableHead>
                                 <TableRow>

@@ -10,27 +10,32 @@ function Form({saveForm, data}){
         var value = e.target.value;
         setFormData((formData) => {return {... formData, [prop]:value}})
     }
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         const validForm = formValidation(formData);
-        console.log(validForm);
         if (validForm.valid) {
-            fetch("/api/feed", {
-                method: "POST",
-                body: JSON.stringify(formData)
-            })
-            .then((a) => {
-                if (message){
-                    message.current.style.display = "block";
-                    message.current.style.color = "green";
-                    message.current.innerHTML = "The form has been correctly submitted";
+            try{
+                const response = await fetch("/api/feed", {
+                    method: "POST",
+                    body: JSON.stringify(formData)
+                });
+                const result = await response.json();
+                const body = await result.body;
+                if (response.status == 201){
+                    if (message){
+                        message.current.style.display = "block";
+                        message.current.style.color = "green";
+                        message.current.innerHTML = "The form has been correctly submitted";
+                    }
+                } else {
+                    if (message && body.message){
+                        message.current.style.display = "block";
+                        message.current.style.color = "red";
+                        message.current.innerHTML = body.message;
+                    }
                 }
-            })
-            .then(() => {
-                setFormData({});
-            })
-            .catch((e) => {
-                console.log(`Failed to post: ${e}`);
-            })
+            } catch(e){
+                    console.log(`Failed to post: ${e}`);
+            }
         } else {
             if (message){
                 message.current.style.display = "block";
@@ -40,14 +45,13 @@ function Form({saveForm, data}){
         }
     }
     React.useEffect( () => {
-        console.log(formData)
         saveForm(formData);
     }, [formData])
 
     return (
         <div id="form">
             <h1>Form</h1>
-            <form method="POST" action="/api/feed" onSubmit="return false">
+            <form method="POST" action="/api/feed">
                 <div>
                     <label for="food" style={{width:"200px"}}>Type of Food: <span>*</span></label> <br />
                     <input type="text" id="food" name="food" placeholder={"bread, popcorn, ..."} onChange={handleChange} value={formData.food} required/>
@@ -69,7 +73,7 @@ function Form({saveForm, data}){
                     <input type="text" id="food_amount" name="food_amount" placeholder={"0.2 kg"} onChange={handleChange} value={formData.food_amount} required/>
                 </div>
 
-                {/* This will only display on successful submit of the form */}
+                {/* This will display on successful submit of the form or on missing form data */}
                 <p ref={message} style={{display:"none"}}></p> 
                 
                 <button onClick={handleSubmit} type="button">Submit</button>
