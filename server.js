@@ -4,6 +4,7 @@ const validatePost = require('./inputValidation')
 const PORT = 5000;
 const app = express();
 
+// Middleware
 app.use(bodyParser.urlencoded({extended: true}))
 app.use(bodyParser.json());
 app.use(bodyParser.text());
