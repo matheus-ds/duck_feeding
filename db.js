@@ -52,18 +52,32 @@ async function postDB(payload){
     } catch (e) {
         console.log("Failed to post: ", e);
         return {message: "Failed to insert entry in database. Please try again later."}
-    } finally{
-        await client.end();
     }
 }
 
-// const payload = {
-//     food: "bread"
-//     , time: "9"
-//     , location: "Beacon Hill"
-//     , number_of_ducks: 2
-//     , food_amount: "2kg"
-// }
-// post(payload);
+async function getAllDB(){
+    try{
+        if (! client._connected){
+            await connect();
+        }
+        const sqlQuery = `
+            select 
+                feedid
+                , food
+                , time
+                , location
+                , number_of_ducks
+                , food_amount
+            from
+                feed;
+        `
+        const result = await client.query(sqlQuery);
+        console.log("Succesfully selected all entries")
+        return result.rows;
+    } catch (e) {
+        console.log("Failed to get: ", e);
+        return {message: "Failed to retrieve entries from the database. Please try again later."}
+    }
+}
 
-module.exports = postDB;
+module.exports = {postDB, getAllDB};

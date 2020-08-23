@@ -1,6 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const postDB = require("./db");
+const {postDB, getAllDB} = require("./db");
 const validateDuckFeeding = require('./inputValidation');
 const app = express();
 
@@ -10,9 +10,9 @@ app.use(bodyParser.json());
 app.use(bodyParser.text());
 
 // get all duck feeding entries
-app.get('/api/all', (req, res) => {
-    // TODO: replace payload with appropriate DB query result
-    res.json(feeding);
+app.get('/api/feed/all', async (req, res) => {
+    const result = await getAllDB();
+    res.json(result);
 })
 
 // post a new duck feeding entry
