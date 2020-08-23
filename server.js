@@ -1,5 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+const postDB = require("./db");
 const validatePost = require('./inputValidation')
 const PORT = 5000;
 const app = express();
