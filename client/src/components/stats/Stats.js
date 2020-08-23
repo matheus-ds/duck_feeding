@@ -11,6 +11,7 @@ import TableCell from '@material-ui/core/TableCell';
 
 function Stats(){
     const [data, setData] = React.useState();
+    const [serverRunning, setServerRunning] = React.useState(true);
     
     React.useEffect(() => {
         async function getAllData(){
@@ -23,6 +24,7 @@ function Stats(){
                 }
             } catch (e){
                 console.log(`Failed to get: ${e}`);
+                setServerRunning(false);
             }
         }
         getAllData();
@@ -43,7 +45,7 @@ function Stats(){
     return (
         <div>
             <h1>Stats</h1>
-            {(data !== undefined && (
+            {(data !== undefined && (  // Renders table only after successful fetch
                 <Card elevation={3}>
                     <TableContainer style={{maxHeight: "400px"}}>
                         <Table stickyHeader aria-label="sticky table">
@@ -54,7 +56,6 @@ function Stats(){
                                     <TableCell>Location</TableCell>
                                     <TableCell>Number of Ducks</TableCell>
                                     <TableCell>Food Amount</TableCell>
-
                                 </TableRow>
                             </TableHead>
                             <TableBody>
@@ -80,7 +81,12 @@ function Stats(){
                             onChangeRowsPerPage={handleChangeRowsPerPage}
                         />
                 </Card>
-            )) || <h3>Loading...</h3>}
+            )) || (  // Could not connect to server:
+                ! serverRunning && (
+                <h3>Unable to connect to server. Try again later.</h3>
+            )) || (  // Displayed while fetching data
+                <h3>Loading...</h3>
+            )}
         </div>
     )
 }
