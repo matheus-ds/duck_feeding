@@ -25,7 +25,6 @@ DB_PASSWORD=
 DB_PORT=
 DB_DATABASE=
 ```
-### Note: For Freshworks, this file will be added in the submission dropbox. Download the file and add to the root directory of this application.
 Lastly, to run the application, use the command
 ```bash
 npm run dev
