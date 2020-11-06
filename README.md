@@ -29,8 +29,3 @@ Lastly, to run the application, use the command
 ```bash
 npm run dev
 ```
-
-## questions or concerns
-Matt Silva
-silva.matheusdorneles@gmail.com
-(778) 535-7654
